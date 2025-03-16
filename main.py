@@ -84,9 +84,14 @@ def get_questions():
     if not response or not hasattr(response, "text"):
         return jsonify({"error": "Failed to get a valid response from Gemini API"}), 500
 
-    answer = response.text
-
-    return jsonify(answer)
+    # answer = response.text
+    # return jsonify(answer)
+    try:
+        parsed_response = json.loads(response.text)
+        return jsonify(parsed_response)
+    
+    except json.JSONDecodeError:
+        return jsonify({"error": "Invalid JSON response from Gemini API"}), 500
 
 
 
