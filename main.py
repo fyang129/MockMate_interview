@@ -17,9 +17,9 @@ CORS(app)
 GEMINI_API_KEY= os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=GEMINI_API_KEY)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
 
 @app.route('/question_generator', methods=['POST'])
 def get_questions():
