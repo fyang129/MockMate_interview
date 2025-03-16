@@ -89,12 +89,16 @@ def get_questions():
     # return jsonify(answer)
     try:
         parsed_response = json.loads(response.text)
-        return jsonify(parsed_response)
 
     except json.JSONDecodeError:
-        return jsonify({"error": "Invalid JSON response from Gemini API"}), 500
+        print("⚠️ Gemini API returned plain text. Wrapping in JSON...")
+        parsed_response = {
+            "Generated_questions": {
+                "questions": response.text.strip().split("\n")  # Convert text to JSON list
+            }
+        }
 
-
+    return jsonify(parsed_response)
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))  # Render assigns a dynamic port
