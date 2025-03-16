@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> MockMate - Interview Helper </title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { margin-bottom: 20px; }
+        input, button { padding: 10px; font-size: 16px; }
+        .response { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>MockMate</h1>
+    <form id="question-form">
+        <input type="text" id="question" name="question" placeholder="Ask a question..." required>
+        <button type="submit">Ask</button>
+    </form>
+    <div id="response" class="response" style="display:none;"></div>
+
+    <script>
+        document.getElementById('question-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const questionInput = document.getElementById('question');
+            const responseDiv = document.getElementById('response');
+            responseDiv.style.display = 'none';
+            responseDiv.innerHTML = '';
+
+            const question = questionInput.value;
+            if (!question) return;
+
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `question=${encodeURIComponent(question)}`
+                });
+
+                const data = await response.json();
+                if (data.error) {
+                    responseDiv.innerHTML = `<strong>Error:</strong> ${data.error}`;
+                } else {
+                    responseDiv.innerHTML = `<strong>Answer:</strong> ${data.answer}`;
+                }
+            } catch (error) {
+                responseDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
+            }
+
+            responseDiv.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
