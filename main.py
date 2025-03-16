@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import requests
+import gunicorn
 from dotenv import load_dotenv
 # import google.generativeai as genai
 from google import genai
@@ -85,7 +86,8 @@ def get_questions():
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port = 5000)
+    port = int(os.environ.get("PORT", 10000))  # Render assigns a dynamic port
+    app.run(debug=True, host="0.0.0.0", port=port)
 
 
 
