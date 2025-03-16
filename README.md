@@ -1,1 +1,1 @@
-# MockMate_interview
+# Question Generator
