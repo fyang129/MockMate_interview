@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import requests
@@ -89,7 +90,7 @@ def get_questions():
     try:
         parsed_response = json.loads(response.text)
         return jsonify(parsed_response)
-    
+
     except json.JSONDecodeError:
         return jsonify({"error": "Invalid JSON response from Gemini API"}), 500
 
