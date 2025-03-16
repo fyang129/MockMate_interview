@@ -86,7 +86,7 @@ def get_questions():
 
     answer = response.text
 
-    return answer
+    return jsonify(answer)
 
 
 
