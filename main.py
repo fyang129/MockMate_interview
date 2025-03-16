@@ -22,6 +22,11 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 # def index():
 #     return render_template('index.html')
 
+@app.route('/')
+def home():
+    return jsonify({"message": "This is a question generator created with Gemini API"})
+
+
 @app.route('/question_generator', methods=['POST'])
 def get_questions():
 
